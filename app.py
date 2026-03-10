@@ -1,101 +1,100 @@
-from flask import Flask, request, jsonify
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, EmailStr
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from flask_cors import CORS
-import os
 import logging
+import uvicorn
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Email Configuration - Set these values directly
+# Email Configuration
 EMAIL_USER = "githuvarghese97@gmail.com"
-# EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD', "")
-EMAIL_PASSWORD = "qhasogqvrpgvilwy"
+EMAIL_PASSWORD = "cufz zsmm hrcg wvqe"
 
-app = Flask(__name__)
-CORS(app)  # This allows your frontend to make requests to this API
+app = FastAPI(title="Portfolio API", description="Backend API for Githu Varghese's portfolio website")
+
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-@app.route('/send-email', methods=['POST'])
-def send_email():
-    data = request.json
+class ContactForm(BaseModel):
+    name: str
+    email: str
+    subject: str = "New Contact Form Submission"
+    message: str
 
+
+@app.post("/send-email")
+async def send_email(form: ContactForm):
     # Validate required fields
-    required_fields = ['name', 'email', 'message']
-    for field in required_fields:
-        if not data.get(field):
-            return jsonify({"status": "error", "message": f"Missing required field: {field}"}), 400
+    if not form.name.strip():
+        return {"status": "error", "message": "Name is required"}
+    if not form.email.strip():
+        return {"status": "error", "message": "Email is required"}
+    if not form.message.strip():
+        return {"status": "error", "message": "Message is required"}
 
-    # Get form data
-    name = data.get('name')
-    email = data.get('email')
-    subject = data.get('subject', 'New Contact Form Submission')
-    message = data.get('message')
-
-    # Check if password is set
     if not EMAIL_PASSWORD:
         logger.error("Email password not set")
-        return jsonify({"status": "error",
-                        "message": "Email password not configured. Set the EMAIL_PASSWORD environment variable."}), 500
+        return {"status": "error", "message": "Email password not configured."}
 
-    # Create the email
+    # Build email
     msg = MIMEMultipart()
     msg['From'] = EMAIL_USER
-    msg['To'] = EMAIL_USER  # Sending to yourself
-    msg['Subject'] = f"Portfolio Contact: {subject}"
+    msg['To'] = EMAIL_USER
+    msg['Subject'] = f"Portfolio Contact: {form.subject}"
 
-    # Construct email body
     body = f"""
     You received a new message from your portfolio website:
 
-    Name: {name}
-    Email: {email}
+    Name: {form.name}
+    Email: {form.email}
 
     Message:
-    {message}
+    {form.message}
     """
 
     msg.attach(MIMEText(body, 'plain'))
 
     try:
-        # Connect to SMTP server
         server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()  # Identify to the SMTP server
-        server.starttls()  # Secure the connection
-        server.ehlo()  # Re-identify over TLS connection
-
-        # Login to the email account
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
         server.login(EMAIL_USER, EMAIL_PASSWORD)
-
-        # Send email
-        text = msg.as_string()
-        server.sendmail(EMAIL_USER, EMAIL_USER, text)
+        server.sendmail(EMAIL_USER, EMAIL_USER, msg.as_string())
         server.quit()
 
-        logger.info(f"Email sent successfully from {email}")
-        return jsonify({"status": "success", "message": "Email sent successfully!"}), 200
+        logger.info(f"Email sent successfully from {form.email}")
+        return {"status": "success", "message": "Email sent successfully!"}
 
     except smtplib.SMTPAuthenticationError:
-        logger.error("SMTP Authentication Error - incorrect email or password")
-        return jsonify(
-            {"status": "error", "message": "Email authentication failed. Check your email credentials."}), 500
+        logger.error("SMTP Authentication Error")
+        return {"status": "error", "message": "Email authentication failed. Check credentials."}
 
     except smtplib.SMTPException as e:
         logger.error(f"SMTP Error: {e}")
-        return jsonify({"status": "error", "message": "Failed to send email due to SMTP server error."}), 500
+        return {"status": "error", "message": "Failed to send email due to SMTP error."}
 
     except Exception as e:
-        logger.error(f"Unexpected error sending email: {e}")
-        return jsonify({"status": "error", "message": f"Failed to send email: {str(e)}"}), 500
+        logger.error(f"Unexpected error: {e}")
+        return {"status": "error", "message": f"Failed to send email: {str(e)}"}
 
 
-@app.route('/test', methods=['GET'])
-def test():
-    return jsonify({"status": "success", "message": "API is working!"}), 500
+@app.get("/test")
+async def test():
+    return {"status": "success", "message": "FastAPI is running!"}
 
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
