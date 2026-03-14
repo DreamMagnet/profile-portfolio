@@ -901,7 +901,8 @@ section+section::before {
    ============================================================ */
 .skills-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* auto-flows: 3 cols desktop → 2 cols tablet → 1 col mobile */
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: 1.8rem;
 }
 
@@ -947,18 +948,27 @@ section+section::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
 }
 
 .skill-name {
   font-size: 0.88rem;
   font-weight: 500;
   color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
 }
 
 .skill-percent {
   font-size: 0.78rem;
   color: var(--primary);
   font-weight: 700;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .progress-bar {
@@ -1636,197 +1646,252 @@ footer {
 }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE — 4-Breakpoint Professional System
+   1200px  Large laptop
+    992px  Tablet / small laptop  ← nav collapses here
+    640px  Large phone (landscape or large Android)
+    480px  Small phone (iPhone SE, Galaxy S8 etc.)
    ============================================================ */
-@media (max-width: 1100px) {
-  .achievements-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 
-  .skills-container {
-    grid-template-columns: repeat(2, 1fr);
+/* ── 1200px ─────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .hero-content {
+    grid-template-columns: 1fr 380px;
+    gap: 3rem;
   }
 }
 
+/* ── 992px ─────────────────────────────────────────────── */
 @media (max-width: 992px) {
-  .hero-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 3rem;
-  }
 
-  .name-headline {
-    font-size: 3rem;
-    letter-spacing: -1px;
-  }
-
-  .bio {
-    margin: 0 auto 2rem;
-  }
-
-  .hero-stats {
-    margin: 2rem auto;
-  }
-
-  .cta-buttons {
-    justify-content: center;
-  }
-
-  .hero-socials {
-    justify-content: center;
-  }
-
-  .profile-wrapper {
-    width: 300px;
-    height: 300px;
-  }
-
-  .profile_pic {
-    width: 210px;
-    height: 210px;
-  }
-
-  @keyframes orbitDot {
-    from {
-      transform: rotate(0deg) translateX(145px) rotate(0deg);
-    }
-
-    to {
-      transform: rotate(360deg) translateX(145px) rotate(-360deg);
-    }
-  }
-
-  .menu-btn {
-    display: flex;
-  }
+  /* ---- Nav ---- */
+  .menu-btn { display: flex; }
 
   .tabs {
     position: fixed;
-    top: 0;
-    right: -100%;
-    height: 100vh;
-    width: 240px;
+    top: 0; right: -100%;
+    height: 100vh; width: 240px;
     background: rgba(6, 13, 31, 0.97);
     border-left: 1px solid var(--glass-border);
     flex-direction: column;
     justify-content: center;
-    gap: 2.5rem;
-    padding: 2rem;
+    gap: 2.5rem; padding: 2rem;
     z-index: 999;
     transition: right 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+  }
+  .tabs.active { right: 0; }
+
+  /* ---- Hero ---- */
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2.5rem;
   }
 
-  .tabs.active {
-    right: 0;
+  /* stack: text first, then image */
+  .hero-content .details { order: 1; }
+  .profile-wrapper        { order: 2; }
+
+  .name-headline { font-size: clamp(2.2rem, 6vw, 3rem); }
+  .bio           { max-width: 600px; margin: 0 auto 1.5rem; }
+
+  .hero-stats {
+    margin: 1.5rem auto;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+  }
+  .cta-buttons  { justify-content: center; }
+  .hero-socials { justify-content: center; }
+
+  .profile-wrapper {
+    width: 280px; height: 280px;
+    margin: 0 auto;
+  }
+  .profile_pic { width: 200px; height: 200px; }
+
+  @keyframes orbitDot {
+    from { transform: rotate(0deg) translateX(135px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(135px) rotate(-360deg); }
   }
 
-  .time-line-items::before {
-    left: 22px;
-  }
+  /* ---- Skills ---- */
+  /* auto-fill minmax handles this — just reduce padding */
+  .skill-category { padding: 1.5rem; }
+
+  /* ---- Grids ---- */
+  .achievements-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid      { grid-template-columns: 1fr; }
+  .projects-grid     { grid-template-columns: repeat(2, 1fr); }
+
+  /* ---- Timeline — left-aligned on all screens below 992 ---- */
+  .time-line-items::before { left: 22px; }
 
   .time-line-item {
     padding-left: 66px !important;
     padding-right: 0 !important;
     text-align: left !important;
   }
-
   .time-line-dot {
     left: 22px;
     transform: translateX(-50%);
   }
-
   .time-line-year {
     left: 0 !important;
     right: auto !important;
-    top: -2.2rem;
-    font-size: 0.68rem;
+    top: -2rem;
+    font-size: 0.7rem;
   }
-
   .time-line-item:nth-child(odd) .education-details {
-    float: none;
-    clear: none;
+    float: none; clear: none;
   }
 
-  .contact-grid {
-    grid-template-columns: 1fr;
-  }
-
+  /* ---- Footer ---- */
   .footer-inner {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 1rem;
   }
 }
 
+/* ── 640px ─────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  html { font-size: 13px; }
+  html { font-size: 14px; }
 
-  .section-heading { font-size: 1.9rem; }
-  .name-headline   { font-size: 2.1rem; letter-spacing: -0.5px; }
+  /* Prevent any section from creating horizontal scroll */
+  body, html { overflow-x: hidden; }
+  section     { overflow-x: hidden; }
+  .container  { width: 100%; padding: 0 16px; box-sizing: border-box; }
 
-  .container { padding: 0 14px; width: 100%; }
+  section { padding: 4.5rem 0; }
+  .hero   { padding: 6.5rem 0 4rem; }
 
-  section { padding: 5rem 0; overflow-x: hidden; }
+  /* ---- Typography ---- */
+  .section-heading { font-size: clamp(1.6rem, 5vw, 2rem); }
+  .name-headline   { font-size: clamp(1.9rem, 7vw, 2.6rem); }
+  .section-label   { font-size: 0.65rem; }
 
-  .hero {
-    padding: 7rem 0 4rem;
-  }
-
-  /* Shrink the profile area so orbit rings never overflow */
+  /* ---- Hero profile ---- */
   .profile-wrapper {
-    width: 220px;
-    height: 220px;
+    width: 230px; height: 230px;
     margin: 0 auto;
-    /* clip the outer orbit ring that would bleed */
     overflow: visible;
   }
+  .profile_pic { width: 165px; height: 165px; }
 
-  .profile_pic    { width: 160px; height: 160px; }
-
-  /* Shrink orbit radius on very small screens */
   @keyframes orbitDot {
-    from { transform: rotate(0deg) translateX(105px) rotate(0deg); }
-    to   { transform: rotate(360deg) translateX(105px) rotate(-360deg); }
+    from { transform: rotate(0deg) translateX(108px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(108px) rotate(-360deg); }
   }
 
-  /* Orbit rings also need to fit */
   .ring-1 { width: 100%; height: 100%; }
-  .ring-2 { width: 78%; height: 78%; }
+  .ring-2 { width: 78%;  height: 78%;  }
 
+  /* ---- Hero stats ---- */
   .hero-stats {
-    padding: 1rem 1.1rem;
+    padding: 1rem 1.2rem;
     gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
     width: 100%;
     max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
   }
-
   .stat-divider { display: none; }
 
-  .skills-container    { grid-template-columns: 1fr; }
-  .achievements-grid   { grid-template-columns: 1fr; }
-
+  /* ---- Buttons ---- */
   .cta-buttons {
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.7rem;
+    width: 100%;
+  }
+  .btn {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
   }
 
-  .btn { width: 100%; justify-content: center; max-width: 260px; }
+  /* ---- Skills ---- */
+  /* minmax(min(280px,100%), 1fr) already forces 1 col at this width */
+  .skill-category { padding: 1.2rem; }
 
-  /* WhatsApp button — move up so it doesn't clash with back-to-top */
-  .whatsapp-float { bottom: 5.5rem; left: 1.2rem; width: 46px; height: 46px; font-size: 1.5rem; }
+  /* ---- Achievements ---- */
+  .achievements-grid { grid-template-columns: 1fr; }
+
+  /* ---- Timeline item content ---- */
+  .time-line-item { padding-left: 56px !important; }
+
+  /* ---- Contact ---- */
+  .contact-info, .contact-form { padding: 1.6rem; }
+
+  /* ---- Floating buttons ---- */
+  .whatsapp-float {
+    bottom: 5.5rem; left: 1rem;
+    width: 44px; height: 44px;
+    font-size: 1.45rem;
+  }
   .whatsapp-tooltip { display: none; }
-  .back-to-top { bottom: 1.2rem; right: 1.2rem; }
+  .back-to-top { bottom: 1rem; right: 1rem; }
+}
+
+/* ── 480px ─────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  html { font-size: 13px; }
+
+  .container { padding: 0 12px; }
+
+  /* ---- Hero ---- */
+  .name-headline { font-size: clamp(1.7rem, 8.5vw, 2.2rem); }
+  .bio           { font-size: 0.88rem; }
+
+  .profile-wrapper {
+    width: 200px; height: 200px;
+  }
+  .profile_pic { width: 145px; height: 145px; }
+
+  @keyframes orbitDot {
+    from { transform: rotate(0deg) translateX(94px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(94px) rotate(-360deg); }
+  }
+
+  .hero-stats {
+    padding: 0.85rem 1rem;
+    gap: 0.8rem;
+  }
+
+  /* ---- Skill bars ---- */
+  .skill-category { padding: 1rem; }
+  .skill-category h3 { font-size: 0.9rem; }
+  .skill-name    { font-size: 0.82rem; }
+  .skill-percent { font-size: 0.72rem; }
+
+  /* ---- Section headers ---- */
+  .section-heading { font-size: clamp(1.4rem, 7vw, 1.8rem); }
+  .about-highlights-title { font-size: 1.15rem; }
+
+  /* ---- Achievement cards ---- */
+  .achievement-card { padding: 1.3rem 1rem; }
+  .achievement-icon { width: 46px; height: 46px; font-size: 1.4rem; }
+
+  /* ---- Timeline ---- */
+  .time-line-item   { padding-left: 50px !important; }
+  .time-line-dot    { width: 36px; height: 36px; font-size: 0.9rem; }
+
+  /* ---- Contact form ---- */
+  .contact-info, .contact-form { padding: 1.2rem; }
+
+  /* ---- Floating buttons ---- */
+  .whatsapp-float { width: 40px; height: 40px; font-size: 1.3rem; }
+  .back-to-top    { width: 40px; height: 40px; font-size: 1.1rem; }
 }
 
 /* ============================================================
    PROJECTS SECTION
    ============================================================ */
-.projects-section {
-  /* inherits section padding */
-}
+
 
 .projects-grid {
   display: grid;
