@@ -901,8 +901,7 @@ section+section::before {
    ============================================================ */
 .skills-container {
   display: grid;
-  /* auto-flows: 3 cols desktop → 2 cols tablet → 1 col mobile */
-  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  grid-template-columns: repeat(3, 1fr);   /* desktop: 3 cols */
   gap: 1.8rem;
 }
 
@@ -1716,9 +1715,9 @@ footer {
     to   { transform: rotate(360deg) translateX(135px) rotate(-360deg); }
   }
 
-  /* ---- Skills ---- */
-  /* auto-fill minmax handles this — just reduce padding */
-  .skill-category { padding: 1.5rem; }
+  /* ---- Skills — 2 cols on tablet ---- */
+  .skills-container { grid-template-columns: repeat(2, 1fr); }
+  .skill-category   { padding: 1.5rem; }
 
   /* ---- Grids ---- */
   .achievements-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1814,9 +1813,9 @@ footer {
     justify-content: center;
   }
 
-  /* ---- Skills ---- */
-  /* minmax(min(280px,100%), 1fr) already forces 1 col at this width */
-  .skill-category { padding: 1.2rem; }
+  /* ---- Skills — 1 col on phones ---- */
+  .skills-container { grid-template-columns: 1fr; }
+  .skill-category   { padding: 1.2rem; }
 
   /* ---- Achievements ---- */
   .achievements-grid { grid-template-columns: 1fr; }

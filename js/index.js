@@ -283,11 +283,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Skill categories — each card gets its own trigger so ALL 6 are visible
-  gsap.utils.toArray('.skill-category').forEach((card, i) => {
+  // Skill categories — safe per-card trigger, no column-based delay
+  gsap.utils.toArray('.skill-category').forEach((card) => {
     gsap.from(card, {
-      scrollTrigger: { trigger: card, start: 'top 92%', once: true },
-      opacity: 0, y: 50, duration: 0.7, delay: (i % 3) * 0.1, ease: 'power3.out',
+      scrollTrigger: {
+        trigger: card,
+        start: 'top 110%',   // fire even when the card is below the fold
+        once: true,
+      },
+      opacity: 0, y: 40, duration: 0.6, ease: 'power3.out',
+      clearProps: 'opacity,transform',  // ensure fully visible after animation
     });
   });
 
