@@ -1813,9 +1813,14 @@ footer {
     justify-content: center;
   }
 
-  /* ---- Skills — 1 col on phones ---- */
-  .skills-container { grid-template-columns: 1fr; }
-  .skill-category   { padding: 1.2rem; }
+  /* ---- Skills — 1 col on phones, cards always visible ---- */
+  .skills-container   { grid-template-columns: 1fr !important; }
+  .skill-category     {
+    padding: 1.2rem;
+    /* Override any GSAP opacity:0 inline style so all 6 cards show */
+    opacity: 1 !important;
+    transform: none !important;
+  }
 
   /* ---- Achievements ---- */
   .achievements-grid { grid-template-columns: 1fr; }
