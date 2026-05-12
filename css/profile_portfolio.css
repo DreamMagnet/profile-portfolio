@@ -1093,7 +1093,7 @@ section+section::before {
 
 /* Content card */
 .content {
-  padding: 1.6rem 1.8rem;
+  padding: 2rem 2.2rem;
 }
 
 .content h3 {
@@ -1110,20 +1110,21 @@ section+section::before {
 }
 
 .education-details {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 0.3rem;
   font-size: 0.82rem;
   color: var(--primary);
-  margin-top: 0.55rem;
+  margin-top: 0.8rem;
   background: rgba(0, 212, 255, 0.07);
-  padding: 0.2rem 0.6rem;
+  padding: 0.35rem 0.75rem;
   border-radius: 50px;
+  width: fit-content;
 }
 
 .time-line-item:nth-child(odd) .education-details {
-  float: right;
-  clear: both;
+  float: none;
+  clear: none;
 }
 
 .exp-badge {

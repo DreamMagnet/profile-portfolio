@@ -32,7 +32,7 @@ class ContactForm(BaseModel):
     email: str
     subject: str = "New Contact Form Submission"
     message: str
-
+     
 
 @app.post("/send-email")
 async def send_email(form: ContactForm):
