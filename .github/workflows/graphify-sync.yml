@@ -1,0 +1,237 @@
+name: Graphify graph sync
+
+# Builds/updates graphify-out/ (code-only AST graph + community clustering).
+#
+# - pull_request: rebuilds the graph on the PR head but only uploads it
+#   as a workflow artifact for graphify-impact-check to consume. It is not
+#   committed to the PR branch, because graphify-out is generated and not
+#   line-mergeable.
+# - push / manual dispatch: commits graphify-out on that branch, in sequence via
+#   the concurrency group below.
+"on":
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: ['**']
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: graphify-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  graphify-pr-head:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard against forked PR head
+        id: guard
+        run: |
+          if [ "${{ github.event.pull_request.head.repo.full_name }}" != "${{ github.repository }}" ]; then
+            echo "PR head is from a fork (${{ github.event.pull_request.head.repo.full_name }}) - GITHUB_TOKEN cannot push there. Skipping."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.guard.outputs.skip != 'true'
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.skip != 'true'
+        with:
+          python-version: "3.11"
+
+      - name: Install graphify
+        if: steps.guard.outputs.skip != 'true'
+        run: pip install graphifyy
+
+      - name: Build code graph (AST-only, no LLM key required)
+        if: steps.guard.outputs.skip != 'true'
+        run: graphify extract . --code-only
+
+      - name: Enrich graph with discovered architecture
+        if: steps.guard.outputs.skip != 'true'
+        run: |
+          if graphify extract --help | grep -q -- '--architecture'; then
+            graphify extract . --code-only --architecture
+          else
+            echo "::warning::Installed graphifyy does not support architecture enrichment; using the AST graph only."
+          fi
+
+      - name: Cluster communities (no LLM naming)
+        if: steps.guard.outputs.skip != 'true'
+        run: graphify cluster-only . --no-label
+
+      - name: Upload graphify-out as a build artifact
+        if: steps.guard.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: graphify-out
+          path: graphify-out/
+          retention-days: 1
+
+  graphify-main:
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && startsWith(github.ref, 'refs/heads/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install graphify
+        run: pip install graphifyy
+
+      - name: Build code graph (AST-only, no LLM key required)
+        run: graphify extract . --code-only
+
+      - name: Enrich graph with discovered architecture
+        run: |
+          if graphify extract --help | grep -q -- '--architecture'; then
+            graphify extract . --code-only --architecture
+          else
+            echo "::warning::Installed graphifyy does not support architecture enrichment; using the AST graph only."
+          fi
+
+      - name: Cluster communities (no LLM naming)
+        run: graphify cluster-only . --no-label
+
+      - name: Commit and push graphify-out
+        env:
+          TARGET_BRANCH: ${{ github.ref_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add graphify-out/graph.json graphify-out/graph.html graphify-out/GRAPH_REPORT.md graphify-out/manifest.json
+          if git diff --staged --quiet; then
+            echo "graphify-out is already up to date on $TARGET_BRANCH"
+          else
+            git commit -m "chore(graphify): update graphify-out [skip ci]"
+            git push origin "HEAD:refs/heads/$TARGET_BRANCH"
+          fi
+
+  graphify-impact-check:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    needs: graphify-pr-head
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Download the freshly built graph
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: graphify-out
+          path: graphify-out/
+
+      - name: Find changed files
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git diff --name-only "origin/${{ github.event.pull_request.base.ref }}...HEAD" \
+            -- '*.py' '*.ts' '*.js' '*.tsx' > changed_files.txt
+          echo "Changed files:"
+          cat changed_files.txt
+
+      - name: Find impacted callers via the freshly built graph
+        run: |
+          : > impacted.txt
+          if [ ! -f graphify-out/graph.json ]; then
+            echo "No graph artifact found; skipping impacted-caller lookup."
+            exit 0
+          fi
+          while IFS= read -r file; do
+            [ -z "$file" ] && continue
+            node_ids=$(jq -r --arg f "$file" '.nodes[] | select(.source_file == $f) | .id' graphify-out/graph.json)
+            for id in $node_ids; do
+              jq -r --arg id "$id" '
+                .links[]
+                | select((.target == $id or .source == $id)
+                         and (.relation == "calls" or .relation == "imports" or .relation == "imports_from"))
+                | (.source_file // empty)
+              ' graphify-out/graph.json
+            done
+          done < changed_files.txt | sort -u > impacted.txt
+          echo "Impacted files:"
+          cat impacted.txt
+
+      - name: Build diff + impacted-caller context
+        run: |
+          if [ -s changed_files.txt ]; then
+            git diff "origin/${{ github.event.pull_request.base.ref }}...HEAD" -- $(cat changed_files.txt) > pr.diff
+          else
+            : > pr.diff
+          fi
+          : > context.txt
+          while IFS= read -r file; do
+            [ -z "$file" ] && continue
+            [ -f "$file" ] || continue
+            echo "=== $file ===" >> context.txt
+            cat "$file" >> context.txt
+          done < impacted.txt
+
+      - name: Ask Gemini whether the diff breaks any impacted caller
+        id: judge
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            VERDICT_TEXT=$'ERROR\nGEMINI_API_KEY is not configured for this repository.'
+          else
+            PROMPT=$(jq -n \
+              --rawfile diff pr.diff \
+              --rawfile context context.txt \
+              '"Diff:\n" + $diff + "\n\nImpacted callers (unchanged files that depend on the changed code):\n" + $context + "\n\nDoes this diff break any of the impacted callers shown above? Reply with a single first line that is exactly BREAKS or SAFE, then a short explanation on the following lines."'
+            )
+            BODY=$(jq -n --arg prompt "$PROMPT" '{contents: [{parts: [{text: $prompt}]}]}')
+            HTTP_STATUS=$(curl -s -o response.json -w "%{http_code}" -X POST \
+              "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=$GEMINI_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d "$BODY")
+            VERDICT_TEXT=$(jq -r '.candidates[0].content.parts[0].text // empty' response.json)
+            if [ "$HTTP_STATUS" != "200" ] || [ -z "$VERDICT_TEXT" ]; then
+              echo "::warning::Gemini call failed (HTTP $HTTP_STATUS) or returned no candidates - raw response below"
+              cat response.json
+              VERDICT_TEXT=$'ERROR\nGemini call failed with HTTP '"$HTTP_STATUS"$' or returned no candidates; see job logs for the raw response.'
+            fi
+          fi
+          echo "$VERDICT_TEXT" > verdict.txt
+          cat verdict.txt
+          echo "verdict=$(head -n1 verdict.txt | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
+
+      - name: Post Gemini's verdict as a PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const verdict = '${{ steps.judge.outputs.verdict }}';
+            const icon = verdict === 'BREAKS' ? 'WARNING' : verdict === 'ERROR' ? 'ERROR' : 'SAFE';
+            const body = fs.readFileSync('verdict.txt', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `**Graphify impact check (Gemini): ${icon}**\n\n${body}`
+            });
+
+      - name: Fail check unless Gemini confirmed it's safe
+        if: steps.judge.outputs.verdict != 'SAFE'
+        run: |
+          cat verdict.txt
+          REASON=$(tail -n +2 verdict.txt | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+          echo "::error title=Graphify impact check blocked the merge::Verdict '${{ steps.judge.outputs.verdict }}' (not SAFE).%0A${REASON}"
+          exit 1
