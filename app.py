@@ -5,6 +5,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import logging
+import os
 import uvicorn
 
 # Set up logging
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 # Email Configuration
 EMAIL_USER = "githuvarghese97@gmail.com"
-EMAIL_PASSWORD = "cufz zsmm hrcg wvqe"
+EMAIL_PASSWORD = os.environ.get("PORTFOLIO_EMAIL_PASSWORD", "")
 
 app = FastAPI(title="Portfolio API", description="Backend API for Githu Varghese's portfolio website")
 

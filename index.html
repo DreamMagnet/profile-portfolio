@@ -4,330 +4,208 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Githu Varghese | Software Engineer</title>
+  <title>Githu Varghese | Backend, AI &amp; Data Engineering</title>
   <meta name="description"
-    content="Professional portfolio of Githu Varghese, a software engineer with 2+ years of experience in Python, FastAPI, Flask, JavaScript, SQL, and MongoDB.">
+    content="Githu Varghese is a software engineer working across Python backends, AI agents, MCP, RAG, and data engineering with PySpark and Databricks. Full-time since January 2023; career started September 2022.">
+  <meta name="theme-color" content="#f7f8fa">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
 
   <!-- Icons -->
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-  <!-- GSAP + ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-  <!-- Typed.js -->
-  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"
+    integrity="sha384-42kyIPf7HDYLkGffmxDhSx/3Z/53wGBs3nD6wEFxsbeDc7rMO6mkYbkAcpRsnMU2" crossorigin="anonymous">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/profile_portfolio.css">
-  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="icon" type="image/png" href="img/cartoon_avatar.png">
 </head>
 
 <body>
-  <!-- Global Background -->
-  <canvas id="particles-canvas"></canvas>
-  <div class="bg-grid"></div>
-
-  <!-- Custom Cursor -->
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- Scroll Progress Bar -->
-  <div class="scroll-progress" id="scrollProgress"></div>
-
-  <!-- Header -->
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="top_header" id="headers">
     <div class="container">
-      <div class="logo">
-        <h1 class="name"><span id="fname">Githu</span> <span id="lname">Varghese</span></h1>
-      </div>
-      <div class="menu-btn" id="menuBtn"></div>
-      <nav class="tabs" id="mainNav">
-        <a href="#home" class="tab-link active">Home</a>
-        <a href="#skills" class="tab-link">Skills</a>
-        <a href="#career" class="tab-link">Education</a>
+      <a class="logo" href="#home" aria-label="Githu Varghese, home">
+        <span class="logo-mark" aria-hidden="true">GV</span>
+        <span class="logo-name">Githu Varghese</span>
+      </a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation"
+        aria-expanded="false" aria-controls="mainNav"><i class='bx bx-menu' aria-hidden="true"></i></button>
+      <nav class="tabs" id="mainNav" aria-label="Main navigation">
+        <a href="#home" class="tab-link active" aria-current="location">Home</a>
+        <a href="#skills" class="tab-link">Expertise</a>
+        <a href="#work" class="tab-link">Work</a>
         <a href="#experience" class="tab-link">Experience</a>
         <a href="#abouts" class="tab-link">About</a>
-        <a href="#contacts" class="tab-link">Contact</a>
+        <a href="#career" class="tab-link">Education</a>
+        <a href="#contacts" class="tab-link nav-contact">Contact <i class='bx bx-up-arrow-alt' aria-hidden="true"></i></a>
       </nav>
     </div>
   </header>
+  <div class="menu-overlay" id="menuOverlay" hidden></div>
 
-  <!-- ═══════════════════════════════════════════════════
-       HERO
-  ════════════════════════════════════════════════════ -->
-  <section class="hero" id="home">
-    <div class="hero-bg-orbs">
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
+  <main id="main-content" tabindex="-1">
+  <section class="hero" id="home" tabindex="-1" aria-labelledby="hero-title">
+    <div class="hero-media">
+      <img src="img/portrait.png" alt="Githu Varghese" width="1027" height="1531" fetchpriority="high">
     </div>
     <div class="container">
       <div class="hero-content">
-        <div class="details">
-          <p class="greeting"><span class="hello">Hello,</span> <span class="im">I'm</span></p>
-          <h2 class="name-headline">Githu Varghese</h2>
-          <h3 class="title"><span id="typed-output"></span></h3>
-          <p class="bio">
-            Results-driven Software Engineer with 3+ years of experience building scalable backend systems.
-            Proficient in Python (FastAPI, Flask), JavaScript, SQL, and MongoDB. Expert in REST API design,
-            task automation, and SDLC processes — passionate about clean architecture and production-ready solutions.
-          </p>
-          <div class="hero-stats">
-            <div class="stat-item">
-              <span class="stat-number" data-target="3">0</span><span class="stat-plus">+</span>
-              <span class="stat-label">Years Exp.</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number" data-target="11">0</span><span class="stat-plus">+</span>
-              <span class="stat-label">Projects</span>
-            </div>
-          </div>
-          <div class="cta-buttons">
-            <a href="#contacts" class="btn primary-btn">
-              <i class='bx bx-envelope'></i> Contact Me
-            </a>
-          </div>
-          <div class="hero-socials">
-            <a href="https://www.linkedin.com/in/githu-varghese-5364b3283/" target="_blank" class="hero-social-link"
-              aria-label="LinkedIn">
-              <i class='bx bxl-linkedin-square'></i>
-            </a>
-            <a href="https://github.com/DreamMagnet" target="_blank" class="hero-social-link" aria-label="GitHub">
-              <i class='bx bxl-github'></i>
-            </a>
-            <a href="https://x.com/githu_varghese" target="_blank" class="hero-social-link" aria-label="Twitter">
-              <i class='bx bxl-twitter'></i>
-            </a>
-            <a href="https://www.naukri.com/mnjuser/profile" target="_blank" class="hero-social-link"
-              aria-label="Naukri Profile">
-              <i class='bx bx-briefcase-alt-2'></i>
-            </a>
-          </div>
+        <h1 class="name-headline" id="hero-title"><span>Githu</span> <span>Varghese<span class="name-dot">.</span></span></h1>
+        <p class="hero-focus">Backend, AI &amp; Data Engineering</p>
+        <p class="bio">I build dependable Python backends, AI agents, and data pipelines for real-world applications.</p>
+        <div class="cta-buttons">
+          <a href="#work" class="btn primary-btn">View my work <i class='bx bx-arrow-back bx-rotate-180' aria-hidden="true"></i></a>
+          <a href="#contacts" class="text-link">Get in touch <i class='bx bx-up-arrow-alt' aria-hidden="true"></i></a>
         </div>
-        <div class="profile-wrapper">
-          <div class="orbit-ring ring-1"></div>
-          <div class="orbit-ring ring-2"></div>
-          <div class="profile_pic">
-            <img src="img/test.jpg" alt="Githu Varghese" class="pro_pic">
-          </div>
-          <div class="orbit-dot dot-1"><i class='bx bxl-python'></i></div>
-          <div class="orbit-dot dot-2"><i class='bx bxl-javascript'></i></div>
-          <div class="orbit-dot dot-3"><i class='bx bxs-data'></i></div>
-        </div>
+        <p class="hero-location"><i class='bx bx-map' aria-hidden="true"></i> Based in Ernakulam, Kerala, India</p>
       </div>
     </div>
-    <div class="hero-scroll-hint">
-      <div class="scroll-mouse">
-        <div class="scroll-wheel"></div>
+    <span class="hero-caption"><span>Based in India</span><span>Backend, AI &amp; Data Engineering</span></span>
+  </section>
+
+  <div class="intro-strip" aria-label="At a glance">
+    <div class="container intro-inner">
+      <div class="stat-item">
+        <span class="stat-value experience-value" data-experience-start="2023-01-02" data-experience-style="short">Since Jan 2023</span>
+        <span class="stat-label">Full-time experience<small>Since 02 Jan 2023</small></span>
       </div>
-      <span>Scroll Down</span>
+      <div class="stat-item">
+        <span class="stat-value experience-value" data-experience-start="2022-09-02" data-experience-style="short">Since Sep 2022</span>
+        <span class="stat-label">Total experience<small>Including internships</small></span>
+      </div>
+      <div class="stat-item stat-stack">
+        <span class="stat-value">11<span>+</span></span>
+        <span class="stat-label">Projects delivered<small>From APIs to automation</small></span>
+      </div>
+      <div class="hero-socials" aria-label="Social profiles">
+        <a href="https://github.com/DreamMagnet" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub" title="GitHub"><i class='bx bxl-github' aria-hidden="true"></i></a>
+        <a href="https://www.linkedin.com/in/githu-varghese-5364b3283/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn" title="LinkedIn"><i class='bx bxl-linkedin-square' aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <section class="skills" id="skills" tabindex="-1" aria-labelledby="skills-title">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label"><span>01</span> Expertise</span>
+        <div class="section-heading-row">
+          <h2 class="section-heading" id="skills-title">Technical Expertise</h2>
+          <p class="section-description">Python backend development, AI integrations, and data engineering with PySpark and Databricks.</p>
+        </div>
+      </div>
+      <div class="skills-container">
+        <article class="skill-category skill-core" data-discipline="backend">
+          <div class="skill-card-top"><div class="skill-cat-icon"><i class='bx bx-code-block' aria-hidden="true"></i></div><span class="skill-index">01 / Backend</span></div>
+          <h3>Backend Engineering</h3>
+          <p class="skill-description">Python services, well-designed REST APIs, and dependable business logic. From authentication to database integration.</p>
+          <ul class="skill-list"><li>Python</li><li>FastAPI</li><li>Flask</li><li>REST APIs</li></ul>
+        </article>
+        <article class="skill-category skill-core" data-discipline="ai">
+          <div class="skill-card-top"><div class="skill-cat-icon"><i class='bx bx-brain' aria-hidden="true"></i></div><span class="skill-index">02 / Applied AI</span></div>
+          <h3>AI Agents &amp; RAG</h3>
+          <p class="skill-description">Tool-connected agents with Model Context Protocol (MCP) and retrieval-augmented generation (RAG) for context-aware AI applications.</p>
+          <ul class="skill-list"><li>AI Agents</li><li>MCP</li><li>RAG</li><li>Vector Search</li></ul>
+        </article>
+        <article class="skill-category skill-core" data-discipline="data">
+          <div class="skill-card-top"><div class="skill-cat-icon"><i class='bx bx-layer' aria-hidden="true"></i></div><span class="skill-index">03 / Data</span></div>
+          <h3>Data Engineering</h3>
+          <p class="skill-description">Data processing with PySpark and Databricks. Ingesting, transforming, and organising data for applications and analytics.</p>
+          <ul class="skill-list"><li>PySpark</li><li>Databricks</li><li>SQL</li><li>ETL</li></ul>
+        </article>
+        <article class="skill-category" data-discipline="backend">
+          <div class="skill-card-top"><div class="skill-cat-icon"><i class='bx bx-data' aria-hidden="true"></i></div><span class="skill-index">04 / Storage</span></div>
+          <h3>Databases &amp; Retrieval</h3>
+          <p class="skill-description">Relational modelling, document stores, and vector data for connected backend and AI workflows.</p>
+          <ul class="skill-list"><li>PostgreSQL</li><li>MongoDB</li><li>Milvus DB</li><li>Redis</li><li>Kairos</li></ul>
+        </article>
+        <article class="skill-category" data-discipline="ai">
+          <div class="skill-card-top"><div class="skill-cat-icon"><i class='bx bx-transfer-alt' aria-hidden="true"></i></div><span class="skill-index">05 / Integration</span></div>
+          <h3>Automation &amp; Integration</h3>
+          <p class="skill-description">Connecting services and simplifying repetitive tasks through scripts, APIs, and real-time messaging.</p>
+          <ul class="skill-list"><li>MQTT</li><li>File Processing</li><li>Form.io</li><li>Azure DevOps</li></ul>
+        </article>
+        <article class="skill-category" data-discipline="data">
+          <div class="skill-card-top"><div class="skill-cat-icon"><i class='bx bx-terminal' aria-hidden="true"></i></div><span class="skill-index">06 / Delivery</span></div>
+          <h3>Development &amp; Tooling</h3>
+          <p class="skill-description">Version control, API documentation, and the tools that support a maintainable development lifecycle.</p>
+          <ul class="skill-list"><li>Git / GitHub / GitLab</li><li>Postman / Swagger</li><li>Linux</li><li>Docker</li></ul>
+        </article>
+      </div>
+      <div class="supporting-toolkit"><span>Additional technologies</span><p>JavaScript <span aria-hidden="true">/</span> Node.js &amp; Express <span aria-hidden="true">/</span> HTML &amp; CSS <span aria-hidden="true">/</span> VS Code &amp; PyCharm <span aria-hidden="true">/</span> Windows</p></div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════
-       SKILLS
-  ════════════════════════════════════════════════════ -->
-  <section class="skills" id="skills">
+  <section class="work-section" id="work" tabindex="-1" aria-labelledby="work-title">
     <div class="container">
       <div class="section-header">
-        <span class="section-label">What I Know</span>
-        <h2 class="section-heading">Technical Skills</h2>
+        <span class="section-label"><span>02</span> Engineering in practice</span>
+        <div class="section-heading-row">
+          <div><h2 class="section-heading" id="work-title">Selected Work</h2><p class="section-description">Engineering work across AI applications, data pipelines, and backend automation.</p></div>
+          <a class="text-link" href="https://github.com/DreamMagnet" target="_blank" rel="noopener noreferrer">GitHub profile <i class='bx bxl-github' aria-hidden="true"></i></a>
+        </div>
       </div>
-      <div class="skills-container">
-
-        <div class="skill-category glass-card">
-          <div class="skill-cat-icon"><i class='bx bx-code-alt'></i></div>
-          <h3>Languages</h3>
-          <div class="skill-items">
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Python</span><span class="skill-percent">90%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="90"></div>
-              </div>
+      <div class="work-grid">
+        <article class="work-card" data-discipline="ai">
+          <div class="work-card-top"><span class="work-category">01 / Applied AI</span><i class='bx bx-brain' aria-hidden="true"></i></div>
+          <h3>AI Agents &amp;<br>Knowledge Retrieval</h3>
+          <p>Building AI applications that connect model reasoning with external tools, relevant knowledge, and backend services.</p>
+          <figure class="work-visual" aria-label="AI architecture: knowledge retrieval with RAG informs an agent, which accesses external tools through MCP.">
+            <div class="visual-heading" aria-hidden="true"><span>AI Agent Architecture</span><i class='bx bx-network-chart'></i></div>
+            <div class="architecture-grid" aria-hidden="true">
+              <div class="diagram-node"><i class='bx bx-book-content'></i><strong>Knowledge</strong><span>RAG</span></div>
+              <div class="diagram-node"><i class='bx bx-brain'></i><strong>Agent</strong><span>Reasoning</span></div>
+              <div class="diagram-node"><i class='bx bx-plug'></i><strong>Tools</strong><span>MCP</span></div>
             </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">JavaScript</span><span class="skill-percent">80%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" data-width="80"></div>
-              </div>
+            <div class="visual-caption" aria-hidden="true"><span>Retrieval / Reasoning / Tool use</span><span>Python / REST APIs</span></div>
+          </figure>
+          <ul class="skill-list"><li>MCP</li><li>RAG</li><li>Python</li><li>REST APIs</li></ul>
+          <details class="work-details">
+            <summary>Technical scope <i class='bx bx-plus' aria-hidden="true"></i></summary>
+            <ul><li>Agent workflows that call tools and interact with application services.</li><li>MCP integrations that expose tools and context through a consistent interface.</li><li>RAG workflows that retrieve relevant information to inform model responses.</li><li>REST API integration between AI components and backend applications.</li></ul>
+          </details>
+        </article>
+        <article class="work-card" data-discipline="data">
+          <div class="work-card-top"><span class="work-category">02 / Data Engineering</span><i class='bx bx-layer' aria-hidden="true"></i></div>
+          <h3>Data Pipelines &amp;<br>Transformation</h3>
+          <p>Working with PySpark and Databricks to process data, apply transformations, and prepare structured datasets for downstream use.</p>
+          <figure class="work-visual" aria-label="Data pipeline: ingest source data, transform it with PySpark, and deliver structured datasets using Databricks.">
+            <div class="visual-heading" aria-hidden="true"><span>Data Processing Pipeline</span><i class='bx bx-layer'></i></div>
+            <div class="architecture-grid" aria-hidden="true">
+              <div class="diagram-node"><i class='bx bx-import'></i><strong>Ingest</strong><span>Sources</span></div>
+              <div class="diagram-node"><i class='bx bx-transfer-alt'></i><strong>Transform</strong><span>PySpark</span></div>
+              <div class="diagram-node"><i class='bx bx-data'></i><strong>Deliver</strong><span>Datasets</span></div>
             </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">HTML / CSS</span><span class="skill-percent">80%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" data-width="80"></div>
-              </div>
+            <div class="visual-caption" aria-hidden="true"><span>Ingestion / Transformation / Delivery</span><span>Databricks / SQL</span></div>
+          </figure>
+          <ul class="skill-list"><li>PySpark</li><li>Databricks</li><li>Python</li><li>SQL</li></ul>
+          <details class="work-details">
+            <summary>Technical scope <i class='bx bx-plus' aria-hidden="true"></i></summary>
+            <ul><li>Data ingestion and transformation using Python and PySpark.</li><li>Databricks-based data processing workflows.</li><li>SQL and DataFrame operations to clean, combine, and structure data.</li><li>Database integration and data preparation for application and analytics workflows.</li></ul>
+          </details>
+        </article>
+        <article class="work-card" data-discipline="backend">
+          <div class="work-card-top"><span class="work-category">03 / Backend &amp; Automation</span><i class='bx bx-code-block' aria-hidden="true"></i></div>
+          <h3>APIs &amp;<br>Workflow Automation</h3>
+          <p>Developing client-facing backends and automating operational workflows, from report generation to support ticket creation.</p>
+          <figure class="work-visual" aria-label="Backend architecture: clients send requests to FastAPI services backed by database storage and connected systems.">
+            <div class="visual-heading" aria-hidden="true"><span>Backend Architecture</span><i class='bx bx-code-block'></i></div>
+            <div class="architecture-grid" aria-hidden="true">
+              <div class="diagram-node"><i class='bx bx-devices'></i><strong>Client</strong><span>Request</span></div>
+              <div class="diagram-node"><i class='bx bx-server'></i><strong>API</strong><span>FastAPI</span></div>
+              <div class="diagram-node"><i class='bx bx-data'></i><strong>Storage</strong><span>PostgreSQL</span></div>
             </div>
-          </div>
-        </div>
-
-        <div class="skill-category glass-card">
-          <div class="skill-cat-icon"><i class='bx bx-server'></i></div>
-          <h3>Frameworks &amp; Runtime</h3>
-          <div class="skill-items">
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">FastAPI</span><span class="skill-percent">90%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" data-width="90"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Flask</span><span class="skill-percent">80%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="80"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Node.js / Express</span><span
-                  class="skill-percent">60%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="60"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="skill-category glass-card">
-          <div class="skill-cat-icon"><i class='bx bxs-data'></i></div>
-          <h3>Databases</h3>
-          <div class="skill-items">
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">PostgreSQL / SQL</span><span
-                  class="skill-percent">88%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="88"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">MongoDB</span><span class="skill-percent">82%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" data-width="82"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Kairos / Redis</span><span
-                  class="skill-percent">65%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="65"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Milvus DB</span><span class="skill-percent">55%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" data-width="55"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="skill-category glass-card">
-          <div class="skill-cat-icon"><i class='bx bx-wrench'></i></div>
-          <h3>Tools &amp; Platform</h3>
-          <div class="skill-items">
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Git / GitLab / GitHub</span><span
-                  class="skill-percent">90%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="90"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Postman / Swagger</span><span
-                  class="skill-percent">95%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="95"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">VS Code / PyCharm</span><span
-                  class="skill-percent">92%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="92"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Azure DevOps</span><span class="skill-percent">65%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" data-width="65"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="skill-category glass-card">
-          <div class="skill-cat-icon"><i class='bx bx-brain'></i></div>
-          <h3>Specialisations</h3>
-          <div class="skill-items">
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">REST API Design</span><span
-                  class="skill-percent">92%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="92"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Task Automation</span><span
-                  class="skill-percent">88%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="88"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Excel / File Processing</span><span
-                  class="skill-percent">85%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="85"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Form.io / SDLC</span><span
-                  class="skill-percent">75%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="75"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="skill-category glass-card">
-          <div class="skill-cat-icon"><i class='bx bx-desktop'></i></div>
-          <h3>Operating Systems</h3>
-          <div class="skill-items">
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Windows</span><span class="skill-percent">95%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" data-width="95"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Linux</span><span class="skill-percent">70%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="70"></div>
-              </div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-info"><span class="skill-name">Docker</span><span class="skill-percent">35%</span></div>
-              <div class="progress-bar">
-                <div class="progress" data-width="35"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+            <div class="visual-caption" aria-hidden="true"><span>Requests / Services / Storage</span><span>APIs / Automation</span></div>
+          </figure>
+          <ul class="skill-list"><li>FastAPI</li><li>PostgreSQL</li><li>Azure DevOps</li></ul>
+          <details class="work-details">
+            <summary>Technical scope <i class='bx bx-plus' aria-hidden="true"></i></summary>
+            <ul><li>REST APIs for user management, authentication, and business workflows.</li><li>Automated reporting and structured file processing.</li><li>Support ticket automation with Azure DevOps integration.</li><li>Database schema improvements and MQTT-based real-time communication.</li></ul>
+          </details>
+        </article>
       </div>
     </div>
   </section>
@@ -509,57 +387,22 @@
   -->
 
   <!-- ═══════════════════════════════════════════════════
-       EDUCATION
-  ════════════════════════════════════════════════════ -->
-  <section class="education" id="career">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-label">My Journey</span>
-        <h2 class="section-heading">Education</h2>
-      </div>
-      <div class="time-line-items">
-        <div class="time-line-item">
-          <div class="time-line-year">2020–2022</div>
-          <div class="time-line-dot"><i class='bx bxs-graduation'></i></div>
-          <div class="content glass-card">
-            <h3>Master of Computer Applications (MCA)</h3>
-            <p>Union Christian College, Aluva</p>
-            <p class="education-details"><i class='bx bx-star'></i> GPA: 8.7 / 10</p>
-          </div>
-        </div>
-        <div class="time-line-item">
-          <div class="time-line-year">2017–2020</div>
-          <div class="time-line-dot"><i class='bx bxs-graduation'></i></div>
-          <div class="content glass-card">
-            <h3>Bachelor of Computer Applications (BCA)</h3>
-            <p>St. Mary's College, Thuruthipilly</p>
-            <p class="education-details"><i class='bx bx-star'></i> GPA: 5.8 / 10</p>
-          </div>
-        </div>
-        <div class="time-line-item">
-          <div class="time-line-year">–2017</div>
-          <div class="time-line-dot"><i class='bx bxs-book-open'></i></div>
-          <div class="content glass-card">
-            <h3>Higher Secondary School (Science Stream)</h3>
-            <p>St. Peter's Higher Secondary School, Kolenchery</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════
        EXPERIENCE
   ════════════════════════════════════════════════════ -->
-  <section class="experience" id="experience">
+  <section class="experience" id="experience" tabindex="-1" aria-labelledby="experience-title">
     <div class="container">
       <div class="section-header">
-        <span class="section-label">Work History</span>
-        <h2 class="section-heading">Professional Experience</h2>
+        <span class="section-label"><span>03</span> Career</span>
+        <h2 class="section-heading" id="experience-title">Professional Experience</h2>
+        <p class="section-description">Backend development and software delivery across industrial and enterprise applications.</p>
+        <dl class="career-milestones">
+          <div><dt>Started as an intern</dt><dd><time datetime="2022-09-02">02 September 2022</time></dd></div>
+          <div><dt>Full-time since</dt><dd><time datetime="2023-01-02">02 January 2023</time></dd></div>
+        </dl>
       </div>
       <div class="time-line-items">
         <div class="time-line-item">
-          <div class="time-line-year">2024–Now</div>
+          <div class="time-line-year">2024 - Present</div>
           <div class="time-line-dot"><i class='bx bxs-briefcase'></i></div>
           <div class="content glass-card">
             <span class="exp-badge current">Current</span>
@@ -609,103 +452,117 @@
   <!-- ═══════════════════════════════════════════════════
        ABOUT
   ════════════════════════════════════════════════════ -->
-  <section class="about-section" id="abouts">
+  <section class="about-section" id="abouts" tabindex="-1" aria-labelledby="about-title">
     <div class="container">
       <div class="section-header">
-        <span class="section-label">Get to Know Me</span>
-        <h2 class="section-heading">About Me</h2>
+        <span class="section-label"><span>04</span> The person behind the work</span>
+        <h2 class="section-heading" id="about-title">About Me</h2>
       </div>
       <div class="about-content">
         <p class="about-intro">
-          I'm Githu Varghese, a Software Engineer with 3+ years of hands-on experience building scalable backend
-          systems and automation tools. Proficient in Python (FastAPI, Flask), JavaScript, SQL, and MongoDB,
-          I bring strong problem-solving skills and a deep understanding of SDLC processes to every project.
+          I'm Githu, a software engineer based in Kerala, India. My work connects three areas:
+          dependable backend systems, practical AI applications, and data engineering.
         </p>
         <p class="about-details">
-          My professional journey includes working at multiple technology companies, where I have delivered
-          production-grade backend solutions for large industrial and enterprise clients. I specialise in
-          REST API development, task automation, database design, and Excel/file processing —
-          consistently focusing on performance, reliability, and clean code architecture.
+          I started my career as an intern in September 2022 and moved into full-time employment in January 2023.
+          Since then, my work has grown from Python APIs and database-backed services to AI agents,
+          MCP integrations, RAG applications, and data processing with PySpark and Databricks.
         </p>
+        <p class="about-tenure">Full-time experience: <strong data-experience-start="2023-01-02">since 02 January 2023</strong>.<br>
+          Total experience, including internships: <strong data-experience-start="2022-09-02">since 02 September 2022</strong>.</p>
 
         <div class="achievements-section">
-          <h3 class="about-highlights-title">Key Achievements</h3>
+          <h3 class="about-highlights-title">What I Bring to a Team</h3>
           <div class="achievements-grid">
             <div class="achievement-card glass-card">
               <div class="achievement-icon"><i class='bx bx-code-alt'></i></div>
-              <h4>Process Automation</h4>
-              <p>Engineered multiple automation tools that significantly reduced manual effort and operational overhead
-                across large enterprise clients.</p>
+              <h4>Practical Problem-Solving</h4>
+              <p>Turning repetitive operational tasks into maintainable automation and clear, well-defined workflows.</p>
             </div>
             <div class="achievement-card glass-card">
               <div class="achievement-icon"><i class='bx bx-data'></i></div>
-              <h4>Database Optimisation</h4>
-              <p>Restructured PostgreSQL schemas across multiple projects, delivering measurable improvements in query
-                speed and system responsiveness.</p>
+              <h4>Data-Aware Engineering</h4>
+              <p>Considering how data is modelled, transformed, stored, and retrieved throughout an application's lifecycle.</p>
             </div>
             <div class="achievement-card glass-card">
               <div class="achievement-icon"><i class='bx bx-link'></i></div>
-              <h4>API Development</h4>
-              <p>Designed and shipped 10+ production REST APIs with full Swagger/OpenAPI documentation, used daily by
-                client-facing systems.</p>
+              <h4>Clear API Contracts</h4>
+              <p>Developing documented REST APIs with Swagger and OpenAPI so services and teams can work together.</p>
             </div>
             <div class="achievement-card glass-card">
               <div class="achievement-icon"><i class='bx bx-shield'></i></div>
-              <h4>System Reliability</h4>
-              <p>Implemented robust error handling and MQTT-based real-time communication that significantly improved
-                system uptime and stability.</p>
+              <h4>Reliability in Practice</h4>
+              <p>Paying attention to validation, error handling, database design, and real-time communication.</p>
             </div>
             <div class="achievement-card glass-card">
               <div class="achievement-icon"><i class='bx bx-group'></i></div>
-              <h4>Team Mentoring</h4>
+              <h4>Collaboration &amp; Mentoring</h4>
               <p>Led and mentored a team of interns on the Support Lens Utility project, guiding them through structured
                 data parsing and ticket automation.</p>
             </div>
             <div class="achievement-card glass-card">
               <div class="achievement-icon"><i class='bx bx-bot'></i></div>
-              <h4>GenAI Integration</h4>
-              <p>Contributed to core APIs connecting Multiverse DB and PostgreSQL for downstream AI and analytics
-                pipelines using Milvus DB.</p>
+              <h4>Applied AI Mindset</h4>
+              <p>Connecting AI capabilities with the tools, data, and APIs an application needs to be useful.</p>
             </div>
           </div>
         </div>
 
         <p class="about-summary">
-          I'm particularly interested in backend automation, GenAI integrations, and cloud-native architectures.
-          I stay current through continuous learning and enjoy mentoring peers on best practices in API design
-          and code quality.
+          I value readable code, clear communication, and understanding the problem before choosing the technology.
+          I enjoy learning across disciplines and sharing what I learn with the people I work with.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════
-       CONTACT
-  ════════════════════════════════════════════════════ -->
-  <section class="contact" id="contacts">
+  <section class="education" id="career" tabindex="-1" aria-labelledby="education-title">
     <div class="container">
       <div class="section-header">
-        <span class="section-label">Let's Talk</span>
-        <h2 class="section-heading">Contact Me</h2>
+        <span class="section-label"><span>05</span> Academic background</span>
+        <h2 class="section-heading" id="education-title">Education</h2>
+        <p class="section-description">A foundation in computer applications, strengthened by hands-on engineering experience.</p>
+      </div>
+      <div class="time-line-items">
+        <div class="time-line-item">
+          <div class="time-line-year">2020 - 2022</div>
+          <div class="content"><h3>Master of Computer Applications</h3><p>Union Christian College, Aluva</p><p class="education-details"><i class='bx bxs-graduation' aria-hidden="true"></i> MCA <span aria-hidden="true">/</span> GPA: 8.7 / 10</p></div>
+        </div>
+        <div class="time-line-item">
+          <div class="time-line-year">2017 - 2020</div>
+          <div class="content"><h3>Bachelor of Computer Applications</h3><p>St. Mary's College, Thuruthipilly</p><p class="education-details"><i class='bx bxs-graduation' aria-hidden="true"></i> BCA <span aria-hidden="true">/</span> GPA: 5.8 / 10</p></div>
+        </div>
+        <div class="time-line-item">
+          <div class="time-line-year">Completed 2017</div>
+          <div class="content"><h3>Higher Secondary Education</h3><p>St. Peter's Higher Secondary School, Kolenchery</p><p class="education-details"><i class='bx bx-book-open' aria-hidden="true"></i> Science Stream</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contacts" tabindex="-1" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label"><span>06</span> Get in touch</span>
+        <h2 class="section-heading" id="contact-title">Contact Me</h2>
       </div>
       <div class="contact-grid">
-        <div class="contact-info glass-card">
-          <h3>Get in Touch</h3>
-          <!--           <p>I'm currently available for freelance projects, consulting work, and full-time opportunities. Let's discuss
-            how I can contribute to your team or project.</p> -->
+        <div class="contact-info">
+          <h3>Career &amp; Project Enquiries</h3>
+          <p>For software engineering opportunities and projects in backend development, AI applications, and data engineering.</p>
           <ul class="contact-details">
             <li>
               <div class="contact-icon"><i class='bx bx-envelope'></i></div>
               <div>
                 <h4>Email</h4>
-                <p>githuvarghese97@gmail.com</p>
+                <a href="mailto:githuvarghese97@gmail.com">githuvarghese97@gmail.com</a>
               </div>
             </li>
             <li>
               <div class="contact-icon"><i class='bx bx-phone'></i></div>
               <div>
                 <h4>Phone</h4>
-                <p>+91 8848468103</p>
+                <a href="tel:+918848468103">+91 8848468103</a>
               </div>
             </li>
             <li>
@@ -717,75 +574,64 @@
             </li>
           </ul>
           <div class="contact-socials">
-            <a href="https://www.linkedin.com/in/githu-varghese-5364b3283/" target="_blank" class="social-icon"
-              aria-label="LinkedIn"><i class='bx bxl-linkedin-square'></i></a>
-            <a href="https://github.com/DreamMagnet" target="_blank" class="social-icon" aria-label="GitHub"><i
+            <a href="https://www.linkedin.com/in/githu-varghese-5364b3283/" target="_blank" rel="noopener noreferrer" class="social-icon"
+              aria-label="LinkedIn" title="LinkedIn"><i class='bx bxl-linkedin-square'></i></a>
+            <a href="https://github.com/DreamMagnet" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub" title="GitHub"><i
                 class='bx bxl-github'></i></a>
-            <a href="https://x.com/githu_varghese" target="_blank" class="social-icon" aria-label="Twitter"><i
+            <a href="https://x.com/githu_varghese" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)" title="X (Twitter)"><i
                 class='bx bxl-twitter'></i></a>
-            <a href="https://www.naukri.com/mnjuser/profile" target="_blank" class="social-icon" aria-label="Naukri"><i
-                class='bx bx-briefcase-alt-2'></i></a>
+            <a href="https://wa.me/918848468103" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp" title="WhatsApp"><i class='bx bxl-whatsapp'></i></a>
           </div>
         </div>
 
-        <div class="contact-form glass-card">
-          <h3>Send Me a Message</h3>
-          <form id="contactForm">
-            <div class="form-group">
-              <label for="name">Your Name</label>
-              <input type="text" id="name" name="name" placeholder="Name" required>
+        <div class="contact-form">
+          <form id="contactForm" name="portfolio-contact" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" aria-label="Contact Githu">
+            <input type="hidden" name="form-name" value="portfolio-contact">
+            <p hidden><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" autocomplete="name" maxlength="100" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
+              </div>
             </div>
             <div class="form-group">
-              <label for="email">Your Email</label>
-              <input type="email" id="email" name="email" placeholder="Email Address" required>
+              <label for="subject">Subject <span class="optional-label">(optional)</span></label>
+              <input type="text" id="subject" name="subject" maxlength="160">
             </div>
             <div class="form-group">
-              <label for="subject">Subject</label>
-              <input type="text" id="subject" name="subject" placeholder="Project Inquiry">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" maxlength="5000" required></textarea>
             </div>
-            <div class="form-group">
-              <label for="message">Your Message</label>
-              <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
+            <div class="form-actions">
+              <button type="submit" class="btn primary-btn" id="submitBtn"><span class="btn-text">Send message</span><i class='bx bx-send' aria-hidden="true"></i></button>
+              <a class="btn secondary-btn" id="emailDraft" href="mailto:githuvarghese97@gmail.com" hidden>Open email draft <i class='bx bx-envelope' aria-hidden="true"></i></a>
             </div>
-            <button type="submit" class="btn primary-btn" id="submitBtn">
-              <span class="btn-text"><i class='bx bx-send'></i> Send Message</span>
-              <span class="btn-loader" style="display:none;">Sending...</span>
-            </button>
+            <output class="form-status" id="formStatus" aria-live="polite" aria-atomic="true" hidden></output>
+            <p class="form-note">Prefer email? <a href="mailto:githuvarghese97@gmail.com">Write to me directly.</a></p>
           </form>
         </div>
       </div>
     </div>
   </section>
+  </main>
 
   <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-inner">
-        <p class="footer-logo"><span id="f-fname">Githu</span> <span id="f-lname">Varghese</span></p>
-        <p class="footer-copy">&copy; 2025 Githu Varghese. All Rights Reserved.</p>
-        <div class="footer-socials">
-          <a href="https://www.linkedin.com/in/githu-varghese-5364b3283/" target="_blank" class="social-icon"
-            aria-label="LinkedIn"><i class='bx bxl-linkedin-square'></i></a>
-          <a href="https://github.com/DreamMagnet" target="_blank" class="social-icon" aria-label="GitHub"><i
-              class='bx bxl-github'></i></a>
-          <a href="https://www.naukri.com/mnjuser/profile" target="_blank" class="social-icon" aria-label="Naukri"><i
-              class='bx bx-briefcase-alt-2'></i></a>
-        </div>
+        <a class="footer-logo" href="#home">Githu Varghese.</a>
+        <p class="footer-copy">&copy; <span id="copyrightYear">2026</span> Githu Varghese. All rights reserved.</p>
+        <a class="footer-top" href="#home">Back to top <i class='bx bx-up-arrow-alt' aria-hidden="true"></i></a>
       </div>
     </div>
   </footer>
 
-  <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/918848468103?text=Hi%20Githu%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!"
-    target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
-    <i class='bx bxl-whatsapp'></i>
-    <span class="whatsapp-tooltip">Chat on WhatsApp</span>
-  </a>
-
   <!-- Back to Top -->
-  <button class="back-to-top" id="backToTop" aria-label="Back to top">
-    <i class='bx bx-chevron-up'></i>
-  </button>
+  <a href="#home" class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top" hidden><i class='bx bx-up-arrow-alt' aria-hidden="true"></i></a>
 
   <script src="js/index.js"></script>
 </body>
